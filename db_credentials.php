@@ -1,6 +1,6 @@
 <?php
-$servername = "sql302.epizy.com";
-$username = "epiz_21511385";
-$password = "5SU6ZPp8aWlE";
-$dbname = "epiz_21511385_Inventory2";
+$servername = "sql102.epizy.com";
+$username = "epiz_22727105";
+$password = "eimLZKGDj8iKRUD";
+$dbname = "epiz_22727105_Inventory";
 ?>
