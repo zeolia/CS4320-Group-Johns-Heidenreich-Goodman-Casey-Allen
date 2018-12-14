@@ -6,6 +6,29 @@
 
 #### All File Names and Descriptions
 
+* index.php - this is the landing page when a user navigates to the site. It launches the application by calling controller.php 
+
+
+* Controller.php - this is the controller class in the MVC architecture. This creates instances of Model.php and View.php
+
+
+* Model.php - this is the model class in the MVC architecture. 
+
+
+* View.php - this is the view class in the MVC architecture.
+
+
+* db_credentials.php - this is a file of credentials that model.php uses to authenticate to the database.
+
+
+* inventory.css - this is used by View.php when it creates the html. It is the CSS for the website.
+
+
+* logo.png - this is an image that is used also by the view in creating the html.
+
+
+* web_utils.php - this was used in the first iteration of the application, but not by the current implementation.
+
 #### Exact process of how to compile your source code and build a runnable file
 
 Establish a web hosting site for the application to be run from. Alter the MySQL credentials in the code to match that of your website. In the MySQL workbench of your choice connected to your website, establish schema of tables that match that from our Reports. Upload all code files to your HTDocs folder and navigate to index.php to begin using the application.
