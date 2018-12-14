@@ -1,59 +1,85 @@
-# **CS3380 Final Project**
+#Group 11 - Improved I.T. Inventory System
+##Electronic Archive Guide
 
-## **Project Group Members**
-* Gordon Casey
-* Chavinda Munasinghe
-* Theodore Choma
+###E-Archive Guide written by Elliot Goodman and Aaryn Johns
 
-## **Link to Hosted Application**
-http://gordoncasey.epizy.com/index.php
+####All File Names and Descriptions
 
-## **Description of the Application**
+####Exact process of how to compile your source code and build a runnable file
 
-We created a database application for an IT/Technology Services department to use to inventory their electronic devices (Computers, printers, monitors, TVs, etc.). This application allows for the creation of a record for an electronic device that stores the device's serial number, brand name, model, type of device, the department that the device belongs to, and the mocode that the device was purchased by. Each device record also allows us to assign the device to a user, by pawprint. A device does not have t have a user, but it can, and it it does, they the main screen also displays information about where that device is located based on the user's data. The user's data is stored in another table, and that information includes the user's pawprint, name, and office location. We can update a device's information by using the update button, for example if the device is reassigned to another user, and we can delete a device from the DB, for example if we get rid of the device. We also provide a search bar at the top, where a user can search for devices in the table based off of any of the device's fields, and one only has to enter a partial string, not a full string (Searching "deskt" will produce all records of type "Desktop," and all other records that match this string in other fields). This provides a very dynamic and flexible inventory system.
+Establish a web hosting site for the application to be run from. Alter the MySQL credentials in the code to match that of your website. In the MySQL workbench of your choice connected to your website, establish schema of tables that match that from our Reports. Upload all code files to your HTDocs folder and navigate to index.php to begin using the application.
 
-One note: If the device is not assigned to a user, then it will not show any location info on the home screen. This is by design. This application was developed because I actually work in technology services, and wanted to write an inventory system to replace our current system, and in our department the standard is that a device must always be assigned to a user, except for when the device is in the possession of tech services, in which case we leave the location blank to indicate that it is in or possession, rather than assigning it to us, only to reassign it out later. Also, we allow you, the DB user, to add users to the second table currently, however if this system were implemented in a UM system, the table would pull from a list of UM users, so we do not offer the capability to view the users table, because this functionality would be useless in the actual implementation of this app.
+####Where to find the runnable file
 
-## **Schema**
-This application uses two tables, Devices and Users.
+ As the application is a web page, you need only navigate to the index.php at itinventorysystem.epizy.com to access and run it.
 
-### _Devices_
+####How exactly to run the runnable – what are the allowed input parameters/Describe the allowed values of all parameters that need to be entered while running your program
 
-* ID integer NOT NULL AUTO_INCREMENT
-* SerialNumber varchar(45) NOT NULL
-* Brand varchar(45) NOT NULL
-* Model varchar(45)
-* Owner integer
-* DepartmentOwner varchar(45) NOT NULL
-* MoCodePurchasedBy varchar(45) NOT NULL
-* Type varchar(45) NOT NULL
-* PRIMARY KEY(ID)
+Use the Add Item page to add technology devices to the database. Use the Add User page to add owners of devices. The only parameters we have are for validly defined pawprints to link to devices and for searching for devices that are actually in the database.
 
-### _Users_
+When the webpage has loaded, the full Devices table will be displayed. Above this table, aligned left, is a text field stating “Search here” with a “Search Devices” button to its right, and “Add Device”, “Add User”, and “View Relegated Devices” buttons below the text field. Entering a string into the “Search here” text field then clicking the “Search Devices” button will check every attribute of every record in the Devices table for matching strings. 
 
-* ID integer NOT NULL AUTO_INCREMENT
-* FirstName varchar(45)
-* LastName varchar(45)
-* Pawprint varchar(45) NOT NULL
-* OfficeNumber integer
-* OfficeLetter char
-* PRIMARY KEY(ID)# CS3380FinalProject
+Clicking the “Add Device” and “Add User” will redirect you to pages of the same name 
+and implied function. Both the “Add Device” and “Add User” pages allow you to put a new record into the Device or User table, and have a variety of text fields that correspond to the attribute columns every entry in the database has. At the bottom of each page is a “submit” button which sends the input information to the database to be logged.
 
-## Entity Relationship Diagram
-![](https://github.com/Gordon-Casey/CS3380FinalProject/blob/master/CS3380%20Final%20Project%20ERD.png)
+	Back on the main page, each record has an “update” and “delete” button in their rightmost two columns. Upon clicking the former button, you are redirected to the “Edit a Device” page. It is formatted exactly like the “Add a Device” page, but upon clicking the “submit” button, the record whose “update” button you clicked will have its information overwritten with whatever was just entered.
+	
+	Finally, the aforementioned delete button on the far right column can be clicked to “relegate” a device. When clicked, the device does not disappear, but rather its “Date Relegated” attribute is updated with the time the record’s “delete” button was clicked. Normally, the delete button would only be clicked when a device is being officially junked or recycled. The record relegated will remain in the table for clerical purposes.
 
+	As all functionalities are mapped to various menus and buttons, there are no parameters needed to use the webpage’s functions. Here’s a list of the back-end functions used, and what they do:
 
-## CRUD
+run (controller): switches between use cases, leading off with the full inventory
 
-* Create: We create records using the "Add Device" and "Add User" buttons.
-* Read: We read (view) records on the home page, where we view every device, and we also view a specific set of records through the search bar.
-* Update: We update records using the "Update" button on the right end of every record.
-* Delete: We delete records using the "Delete" button on the right end of every record.
+inventory (controller): calls getInventory in model and generateInventoryHTML in view
 
-## Video Demo
+relegatedInventory (controller): no actual functionality currently
 
-Attached is a link to the YouTube video (I did not want to embed the video or anything like that for readability reasons, I thought it may look ugly).
+getInventory (model): Takes in a string variable called “message”.  Message becomes the error if any sql statements fail. This function posts the array pulled from the database.
 
-https://www.youtube.com/watch?v=p4QWI2PVyoo&t=27s
+presentInventory (view): Takes in an array called “devices” from post and a string argument called “message”. Outputs an html page using those devices at that message.
+
+searchDevices (model): Takes in nothing. Retrieves the string used to search the database through the Post array, and generates an array of devices to post.
+
+deleteDevice (model): Retrieves the id of the element to be deleted from the database from the Post array, changes the relegation date to the current timestamp
+
+presentAddUser (view): Generates a page that has input fields for First Name, Last Name, Pawprint, Office Number, and Office Letter, if applicable, along with a submit button.
+
+addUser (model): Takes the above information from Post and inserts an element into the database.
+
+presentAddDevice (view): see presentAddUser but for the information: User, Serial Number, Brand, Type, Model, Department, and MoCode
+
+addDevice (model): see addUser for the addDevice information
+
+beginUpdateDevice (model): retrieves the id of the device to be updated from Post, and fills in input fields with the current information, to be updated.
+
+updateDevice (model): see addDevice
 
 
+####If authentication is necessary, provide some example user IDs and passwords that will work
+
+Authentication is not necessary to run the Improved I.T. Inventory System.
+
+####PDF  files  containing  the  entire  Report  1  and  Report  2  as  these  were  originally  submitted,  not  as modified as part of Report 3. PDF file containing the entire Report 3 as in the version submitted earlier.  The report should appear as a single file.
+
+PDFs of Reports 1, 2, and 3 are available in the folder marked Reports.
+
+####Microsoft PowerPoint files containing slides you used for your first and second demo.
+
+Folders of our submissions after each Demo are available in the folder marked Demos.
+
+
+####Complete project source code (Java files, or other programming or markup language, if such is used)/Images or button icons loaded by the program when run/Shell-scripts, CGI scripts, HTML files, and any and all other files needed to run the program
+
+All code is available in this Git Repository
+
+####Database tables and files or plain files containing example data to run the program
+
+An example of data running our program is available at itinventorysystem.epizy.com .
+
+####Anything else that your program requires to be run
+
+Once you have altered the credentials to match that of your MySQL database, a reliable internet connection and internet-capable device is all that’s necessary.
+
+####Unit and Integration Tests
+
+We are expecting correct input to work correctly and expecting incorrect input to return error messages. Our fields are so open-ended, though, that we don't have very much incorrect input possible.
