@@ -1,12 +1,7 @@
 <?php
-
-// ini_set('display_errors', 'On');
 	class Model {
 
 		public function getInventory($message){
-
-			// return 'hello';
-
 			$devices = array();
 
 			// Create Connection
@@ -36,12 +31,45 @@
 					// If there was an error from the SQL statement
 					$message = $mysqli->error;
 				}
-
 				$mysqli->close();
 			}
-
 			return $devices;
 		}
+		
+		/*public function getRelegatedInventory($message){
+			$devices = array();
+
+			// Create Connection
+			require('db_credentials.php');
+			$mysqli = new mysqli($servername, $username, $password, $dbname);
+
+			if($mysqli->connect_error){
+
+				$message = $mysqli->connect_error;
+
+			} else {
+
+				// This string is the SQL statement to be executed
+
+				$sql = "SELECT RelegatedDevices.Brand, RelegatedDevices.Model, RelegatedDevices.Type, RelegatedDevices.Owner, RelegatedDevices.SerialNumber, RelegatedDevices.DepartmentOwner, RelegatedDevices.MoCodePurchasedBy, RelegatedDevices.ID, RelegatedDevices.DeleteDate FROM RelegatedDevices";
+
+				// Preforms the SQL query and checks to see if there was an error.
+				if ($result = $mysqli->query($sql)) {
+					if ($result->num_rows > 0) {
+						// If no error, then turns the data into an associative array
+						while($row = $result->fetch_assoc()) {
+							array_push($devices, $row);
+						}
+					}
+					$result->close();
+				} else {
+					// If there was an error from the SQL statement
+					$message = $mysqli->error;
+				}
+				$mysqli->close();
+			}
+			return $devices;
+		}*/
 		
 		public function beginUpdateDevice(){
 		 	$message = "";
@@ -115,7 +143,6 @@
 						$message = $mysqli->error;
 						$mysqli->close();
 					}
-
 				} else {
 					$sql = "INSERT INTO Devices (SerialNumber, Brand, Model, Owner, DepartmentOwner, MoCodePurchasedBy, Type) VALUES ('$serialNumber', '$brand', '$model', '', '$departmentOwner', '$moCode', '$type')";
 					if ($result = $mysqli->query($sql)) {
@@ -130,12 +157,21 @@
 			return $message;
 		}
 		
-		public function deleteDevice(){
-	 	$id = $_POST['ID'];
+		public function deleteDevice($device){
+//	 	$id = $_POST['ID'];
 
 	 	$message = "";
+		
+		$brand = $device['Brand'];
+		$model = $device['Model'];
+		$type = $device['Type'];
+		$pawprint = $device['Owner'];
+		$serialNumber = $device['SerialNumber'];
+		$id = $device['ID'];
+		$departmentOwner = $device['DepartmentOwner'];
+		$mocode = $device['MoCodePurchasedBy'];
 
-	 	if(!$id){
+	 	if(!$device){
 	 		$message = "No device was found to delete";
 	 	} else {
 	 		require('db_credentials.php');
@@ -143,6 +179,23 @@
 	 		if ($mysqli->connect_error) {
 	 			$message = $mysqli->connect_error;
 	 		} else {
+				
+				$sql = "SELECT ID FROM Users WHERE Pawprint = '$owner'";
+				if ($result = $mysqli->query($sql)) {
+					$thing = $result->fetch_assoc();
+					$pawprint = $thing['ID'];
+				} else $pawprint = "";					
+				
+				$sql = "INSERT INTO RelegatedDevices (SerialNumber, Brand, Model, Owner, DepartmentOwner, MoCodePurchasedBy, Type, DeleteDate) VALUES ('$serialNumber', '$brand', '$model', '$pawprint', '$departmentOwner', '$mocode', '$type', NOW())";
+
+				if ($result = $mysqli->query($sql)) {
+					$message = "Device was added";
+				} else {
+					$message = $mysqli->error;
+					$mysqli->close();
+					return $message;
+				}
+				
 	 			$id = $mysqli->real_escape_string($id);
 	 			$sql = "DELETE FROM Devices WHERE ID = $id";
 	 			if ( $result = $mysqli->query($sql) ) {
@@ -153,10 +206,8 @@
 	 			$mysqli->close();
 	 		}	
 	 	}
-
 	 	return $message;
-
-	 }
+	}
 	 
 		public function updateDevice(){
 		$message = "";
@@ -252,10 +303,8 @@
 					// If there was an error from the SQL statement
 					$message = $mysqli->error;
 				}
-
 				$mysqli->close();
-			}
-			
+			}			
 			return $devices;
 
 			//print generatePageHTML("Devices", generateInventoryHTML($devices, $message), $stylesheet);
@@ -290,12 +339,6 @@
 			}
 		return $message;
 		}
-	
-	}
-	
-	
-
-
-	 
+	} 
 
 ?>

@@ -42,10 +42,11 @@
 					break;
 
 				case 'deleteDevice':
-				 	$message = $this->model->deleteDevice();
+					$device = $this->model->beginUpdateDevice();
+				 	$message = $this->model->deleteDevice($device);
 				 	$this->inventory($message);
 				 	break;
-
+		
 				case 'beginUpdateDevice':
 					$device = $this->model->beginUpdateDevice();
 					$this->view->presentUpdateDevice($device);
@@ -56,6 +57,10 @@
 					$message = $this->model->updateDevice();
 					$this->inventory($message);
 					break;
+					
+//				case 'viewRelegatedDevices':
+//					$devices = $this->model->relegatedInventory();
+//					break;
 					
 				case 'searchDevices':
 					$devices = $this->model->searchDevices();
@@ -97,11 +102,16 @@
 		}
 
 		private function inventory($message) {
-			//print("balls");
 			$devices = $this->model->getInventory($message);
 			$this->view->presentInventory($devices, $message);
 			// if($devices) ? $this->view->presentInventory($devices, $message) : print('error');
 		}
+		
+//		private function relegatedInventory($message) {
+//			$devices = $this->model->getRelegatedInventory($message);
+//			$this->view->presentInventory($devices, $message);
+			// if($devices) ? $this->view->presentInventory($devices, $message) : print('error');
+//		}
 	}
 	
 

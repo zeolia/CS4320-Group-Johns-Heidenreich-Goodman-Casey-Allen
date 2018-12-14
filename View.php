@@ -1,10 +1,7 @@
 <?php
-// require('inventory.css');
-// include 'inventory.css';
 	class View {
 		public $stylesheet = 'inventory.css';
 		private $title = 'Home';
-
 
 		public function presentInventory($devices, $message) {
 			//if(!$devices) $message = "Error in searching for your device.";
@@ -37,12 +34,16 @@
 			$html .= "<form action='index.php' method='post'><input type='hidden' name='action' value='presentAddDevice'/><input type='submit' value='Add Device'></form>";
 
 			$html .= "<form action='index.php' method='post'><input type='hidden' name='action' value='presentAddUser'/><input type='submit' value='Add User'></form>";
+			
+			$html .= "<form action='index.php' method='post'><input type='hidden' name='action' value='viewRelegatedDevices'/><input type='submit' value='View Relegated Devices'></form>";
+			
+			//$html .= "<a class='userButton' href=index.php?target=viewRelegatedDevices'>+ View Relegated Devices</a></p>";
 
 			// $html .= "<a class='userButton' href=index.php?target=addUser'>+ Add User</a></p>";
+			
 		
 			if (count($devices) < 1) {
 				$html .= "<p>No devices to display!</p>\n";
-				return $html;
 			}
 		
 			$html .= "<table>\n";
@@ -61,10 +62,8 @@
 				$mocode = $device['MoCodePurchasedBy'];
 				
 				$html .= "<tr><td>$brand</td><td>$type</td><td>$model</td><td>$name</td><td>$pawprint</td><td>$location</td><td>$serialNumber</td><td>$id</td><td>$department</td><td>$mocode</td><td><form action='index.php' method='post'><input type='hidden' name='action' value='beginUpdateDevice'/><input type = 'hidden' name='ID' value='$id' /><input type='submit' value='Update'></form></td><td><form action='index.php' method='post'><input type='hidden' name='action' value='deleteDevice'/><input type = 'hidden' name='ID' value='$id' /><input type='submit' value='Delete'></form></td></tr>\n";
-			}
-			
-			$html .= "</table>\n";
-			
+			}	
+			$html .= "</table>\n";		
 
 			//print($html);
 			//$test = 'devices';
@@ -236,14 +235,8 @@ EOT;
 			</html>
 EOT;
 		print($html);
-	}
-	
-	
-	}
-	
-	
-	
-
+	}	
+}
 // 	private function redirect($url, $statusCode = 303) {
 // 	   header('Location: ' . $url, true, $statusCode);
 // 	   die();
