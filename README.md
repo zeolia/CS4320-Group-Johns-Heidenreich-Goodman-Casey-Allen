@@ -1,4 +1,5 @@
 #Group 11 - Improved I.T. Inventory System
+
 ##Electronic Archive Guide
 
 ###E-Archive Guide written by Elliot Goodman and Aaryn Johns
@@ -22,11 +23,11 @@ When the webpage has loaded, the full Devices table will be displayed. Above thi
 Clicking the “Add Device” and “Add User” will redirect you to pages of the same name 
 and implied function. Both the “Add Device” and “Add User” pages allow you to put a new record into the Device or User table, and have a variety of text fields that correspond to the attribute columns every entry in the database has. At the bottom of each page is a “submit” button which sends the input information to the database to be logged.
 
-	Back on the main page, each record has an “update” and “delete” button in their rightmost two columns. Upon clicking the former button, you are redirected to the “Edit a Device” page. It is formatted exactly like the “Add a Device” page, but upon clicking the “submit” button, the record whose “update” button you clicked will have its information overwritten with whatever was just entered.
+Back on the main page, each record has an “update” and “delete” button in their rightmost two columns. Upon clicking the former button, you are redirected to the “Edit a Device” page. It is formatted exactly like the “Add a Device” page, but upon clicking the “submit” button, the record whose “update” button you clicked will have its information overwritten with whatever was just entered.
 	
-	Finally, the aforementioned delete button on the far right column can be clicked to “relegate” a device. When clicked, the device does not disappear, but rather its “Date Relegated” attribute is updated with the time the record’s “delete” button was clicked. Normally, the delete button would only be clicked when a device is being officially junked or recycled. The record relegated will remain in the table for clerical purposes.
+Finally, the aforementioned delete button on the far right column can be clicked to “relegate” a device. When clicked, the device does not disappear, but rather its “Date Relegated” attribute is updated with the time the record’s “delete” button was clicked. Normally, the delete button would only be clicked when a device is being officially junked or recycled. The record relegated will remain in the table for clerical purposes.
 
-	As all functionalities are mapped to various menus and buttons, there are no parameters needed to use the webpage’s functions. Here’s a list of the back-end functions used, and what they do:
+As all functionalities are mapped to various menus and buttons, there are no parameters needed to use the webpage’s functions. Here’s a list of the back-end functions used, and what they do:
 
 run (controller): switches between use cases, leading off with the full inventory
 
